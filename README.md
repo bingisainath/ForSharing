@@ -259,3 +259,87 @@ const Chat = () => {
 };
 
 export default Chat;
+
+
+
+
+
+// Server.js
+
+
+// const express = require('express');
+// const http = require('http');
+// const socketIo = require('socket.io');
+// const cors = require('cors');
+
+// const app = express();
+// const server = http.createServer(app);
+// const io = socketIo(server, {
+//     transports: ['websocket'] // Use only WebSocket transport
+// });
+
+// const PORT = process.env.PORT || 5000;
+
+// app.use(cors());
+
+// io.on('connection', (socket) => {
+//     console.log('New client connected', socket.id);
+
+//     socket.on('message', (message) => {
+//         io.emit('message', message);
+//     });
+
+//     socket.on('disconnect', (reason) => {
+//         console.log(`Client disconnected: ${reason}`);
+//     });
+
+//     socket.on('connect_error', (err) => {
+//         console.log(`Connection error: ${err.message}`);
+//     });
+// });
+
+// server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const cors = require('cors');
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    },
+    transports: ['websocket']
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+
+let users = {};
+
+io.on('connection', (socket) => {
+    console.log('New client connected', socket.id);
+    users[socket.id] = socket.id;
+    io.emit('users', users);
+
+    socket.on('private_message', ({ recipientId, message }) => {
+        io.to(recipientId).emit('private_message', { senderId: socket.id, message });
+    });
+
+    socket.on('disconnect', (reason) => {
+        console.log(`Client disconnected: ${reason}`);
+        delete users[socket.id];
+        io.emit('users', users);
+    });
+
+    socket.on('connect_error', (err) => {
+        console.log(`Connection error: ${err.message}`);
+    });
+});
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
