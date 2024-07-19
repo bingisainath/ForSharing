@@ -1,297 +1,151 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
-import "./Chat.css";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Splash.css';
 
-let socket;
+const Splash = () => {
+  const navigate = useNavigate();
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("Connecting...");
-  const [isConnected, setIsConnected] = useState(false);
-  const [socketId, setSocketId] = useState("");
-  const [users, setUsers] = useState({});
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [privateMessages, setPrivateMessages] = useState({});
-
-  const connectSocket = () => {
-    socket = io("http://localhost:5000", {
-      reconnection: true,
-      reconnectionAttempts: Infinity,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
-      randomizationFactor: 0.5,
-      transports: ["websocket"],
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected to server");
-      setStatus("Connected");
-      setIsConnected(true);
-      setSocketId(socket.id);
-    });
-
-    socket.on("users", (users) => {
-      setUsers(users);
-    });
-
-    socket.on("private_message", ({ senderId, message }) => {
-      setPrivateMessages((prevMessages) => ({
-        ...prevMessages,
-        [senderId]: [
-          ...(prevMessages[senderId] || []),
-          { message, sender: senderId },
-        ],
-      }));
-    });
-
-    socket.on("disconnect", (reason) => {
-      console.log(`Disconnected from server: ${reason}`);
-      setStatus("Disconnected. Trying to reconnect...");
-      setIsConnected(false);
-    });
-
-    socket.on("reconnect_attempt", () => {
-      console.log("Reconnecting...");
-      setStatus("Reconnecting...");
-    });
-
-    socket.on("reconnect", () => {
-      console.log("Reconnected to server");
-      setStatus("Connected");
-      setIsConnected(true);
-    });
-
-    socket.on("reconnect_failed", () => {
-      console.log("Reconnection failed");
-      setStatus("Reconnection failed");
-    });
-
-    socket.on("connect_error", (err) => {
-      console.log(`Connection error: ${err.message}`);
-      setStatus(`Connection error: ${err.message}`);
-    });
-  };
-
-  useEffect(() => {
-    connectSocket();
-
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
-  }, []);
-
-  const sendMessage = (e) => {
-    e.preventDefault();
-    if (message && selectedUser) {
-      socket.emit("private_message", { recipientId: selectedUser, message });
-      setPrivateMessages((prevMessages) => ({
-        ...prevMessages,
-        [selectedUser]: [
-          ...(prevMessages[selectedUser] || []),
-          { message, sender: socket.id },
-        ],
-      }));
-      setMessage("");
-    }
-  };
-
-  const handleReconnect = () => {
-    if (!isConnected) {
-      connectSocket();
-    }
+  const handleGetStarted = () => {
+    navigate('/login'); // Navigate to login page
   };
 
   return (
-    <div className="chat-container">
-      <h1>Chat Room</h1>
-      <p>Status: {status}</p>
-      <p>Connection ID: {socketId}</p>
-      {!isConnected && <button onClick={handleReconnect}>Reconnect</button>}
-      <div className="chat-content">
-        <div className="users-list">
-          <h2>Users</h2>
-          {/* <ul>
-                        {Object.keys(users).map((userId) => (
-                            <li key={userId} onClick={() => setSelectedUser(userId)} className={selectedUser === userId ? 'selected' : ''}>
-                                {userId} {userId === socketId && '(You)'}
-                            </li>
-                        ))}
-                    </ul> */}
-          <ul>
-            {Object.keys(users).map((userId) => (
-              <li
-                key={userId}
-                onClick={() => setSelectedUser(userId)}
-                className={selectedUser === userId ? "selected" : ""}
-              >
-                {/* {userId} {userId === socketId && "(You)"} */}
-                {userId === socketId ? "" : userId}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="chat-box">
-          <h2>Private Chat</h2>
-          {selectedUser ? (
-            <div className="chat-section">
-              <div className="messages">
-                {privateMessages[selectedUser] &&
-                  privateMessages[selectedUser].map((msg, index) => (
-                    <p key={index}>
-                      <strong>
-                        {msg.sender === socket.id ? "You" : msg.sender}:
-                      </strong>{" "}
-                      {msg.message}
-                    </p>
-                  ))}
-              </div>
-              <form onSubmit={sendMessage} className="message-form">
-                <input
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Type a message"
-                />
-                <button type="submit">Send</button>
-              </form>
-            </div>
-          ) : (
-            <p>You haven't started a conversation yet.</p>
-          )}
-        </div>
+    <div className="splash-container">
+      <div className="splash-content">
+        <h1>Welcome to Our App</h1>
+        <p>Your journey to a better experience starts here. Explore the features and enjoy seamless integration with your favorite tools.</p>
+        <button className="get-started-button" onClick={handleGetStarted}>Get Started to Have Fun</button>
       </div>
     </div>
   );
 };
 
-export default Chat;
+export default Splash;
 
 
-
-#css
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+//CSS
+html, body {
     margin: 0;
     padding: 0;
-}
-
-.chat-container {
+    height: 100%;
     width: 100%;
-    height: 100vh;
+  }
+  
+  .splash-container {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    background-color: #f5f5f5; /* Background color */
+    text-align: center;
+  }
+  
+  .splash-content {
+    max-width: 500px; /* Limit the width of the content */
     padding: 20px;
-    background-color: #f3e6ff;
-}
-
-h1 {
-    text-align: center;
-    color: #6b21a8;
-}
-
-p {
-    text-align: center;
-    color: #6b21a8;
-}
-
-button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background-color: #6b21a8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.chat-content {
-    display: flex;
-    height: 90%;
-}
-
-.users-list {
-    width: 30%;
-    padding: 10px;
-    background-color: #ffffff;
+    background: white;
     border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-}
-
-.users-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.users-list li {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #ececec;
-}
-
-.users-list li:hover, .users-list .selected {
-    background-color: #e0bbff;
-}
-
-.chat-box {
-    width: 70%;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-box h2, .chat-box p {
-    text-align: left;
-    color: #6b21a8;
-}
-
-.chat-section {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: space-between;
-}
-
-.messages {
-    flex-grow: 1;
-    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .splash-content h1 {
+    font-size: 2.5rem;
     margin-bottom: 10px;
-}
-
-.messages p {
-    margin: 5px 0;
-}
-
-.message-form {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 10px;
-    border-top: 1px solid #d1c4e9;
-}
-
-.message-form input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #d1c4e9;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.message-form button {
+  }
+  
+  .splash-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .get-started-button {
     padding: 10px 20px;
-    background-color: #6b21a8;
+    font-size: 1rem;
     color: white;
+    background-color: #007bff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .get-started-button:hover {
+    background-color: #0056b3;
+  }
+
+
+
+  //AuthCOntect
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:8080'; // Ensure this matches your backend server
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadUser = async () => {
+            if (localStorage.token) {
+                axios.defaults.headers.common['x-auth-token'] = localStorage.token;
+            }
+
+            try {
+                const res = await axios.get('/api/auth/user');
+                setUser(res.data);
+            } catch (error) {
+                console.error('Load User Error:', error.response ? error.response.data : error.message);
+            }
+            setLoading(false);
+        };
+
+        loadUser();
+    }, []);
+
+    const login = async (email, password) => {
+        try {
+            const res = await axios.post('/api/auth/login', { email, password });
+            localStorage.setItem('token', res.data.token);
+            axios.defaults.headers.common['x-auth-token'] = res.data.token;
+            const userRes = await axios.get('/api/auth/user');
+            setUser(userRes.data);
+            return {status:true,message:"Login Success"};
+        } catch (error) {
+            console.error('Login Error:', error);
+            return {status:false,message:error.response};
+        }
+    };
+
+    const register = async (username, email, password) => {
+        try {
+            const res = await axios.post('/api/auth/register', { username, email, password });
+            localStorage.setItem('token', res.data.token);
+            axios.defaults.headers.common['x-auth-token'] = res.data.token;
+            const userRes = await axios.get('/api/auth/user');
+            setUser(userRes.data);
+            return {status:true,message:"Register Success"};
+        } catch (error) {
+            console.error('Registration Error:', error.response ? error.response.data : error.message);
+            return {status:false,message:error.response};
+        }
+    };
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        setUser(null);
+        delete axios.defaults.headers.common['x-auth-token'];
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+            {!loading && children}
+        </AuthContext.Provider>
+    );
+};
