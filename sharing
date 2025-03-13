@@ -175,3 +175,21 @@ Users point their camera at a flat surface, and a 3D model appears (e.g., a beat
 Tap the model for annotations or links to related MP4s/PDFs.
 Benefit: Cutting-edge and highly engaging for tech-savvy users.
 Implementation: Requires ARKit (iOS) or ARCore (Android) integration—more complex but impactful.
+
+
+Daily Challenges & Streaks
+Overview
+Purpose: Encourage daily app use with knowledge tasks (e.g., "Watch a video") and reward users with points, badges, and streaks.
+Mechanics:
+Daily task appears on Home screen (e.g., "Read ‘Diabetes Basics’").
+Completing tasks earns rewards; consecutive days build a streak.
+Progress tracked in Settings (e.g., "3-day streak, 30 points").
+Benefits:
+Builds learning habits via streaks.
+Gamifies education with rewards.
+Drives exploration of content.
+Implementation:
+Challenge widget UI with progress bar.
+Local storage for tasks/streaks (e.g., JSON).
+Auto/manual completion logic + optional notifications.
+Moderate effort: UI + local tracking.
