@@ -1,195 +1,64 @@
-1. Interactive Quizzes (Home Screen)
-Concept: Add a "Quiz of the Day" or topic-specific quizzes based on the content (e.g., PDFs or MP4s) available in the app.
+2024-2025 KEY DATES
+ 	
+02-06 September 2024
 
-How it Works:
-Users see a small quiz widget on the Home screen (e.g., 3-5 multiple-choice questions).
-Questions are derived from the educational material (e.g., "What is the primary cause of hypertension?" after a video on heart health).
-Correct answers unlock badges or points visible in the Settings or Favorites section.
-Benefit: Encourages users to engage with the content actively and test their knowledge.
-Implementation: Store a question bank in the app and randomize daily/weekly quizzes.
-2. Symptom Match Game (Home or Favorites Screen)
-Concept: A drag-and-drop or matching game where users pair symptoms with conditions or treatments.
+Postgraduate Orientation Week
 
-How it Works:
-Example: Drag "Fever" to "Flu" or "Rest" to "Sprained Ankle."
-Content is pulled from the app’s library (e.g., PDFs on common illnesses).
-Add a timer or scoring system for fun competition.
-Benefit: Makes learning about symptoms and conditions interactive and memorable.
-Implementation: Use simple animations and a preloaded database of symptom-condition pairs.
-3. Virtual Patient Scenarios (Home Screen)
-Concept: Present users with a short interactive case study or scenario (e.g., "A patient has X symptoms, what should they do next?").
+ 	
+09 September 2024
 
-How it Works:
-Users choose from multiple options (e.g., "Call a doctor," "Rest," "Take medication").
-Feedback is provided based on the app’s educational content, with links to relevant PDFs/MP4s.
-Benefit: Encourages critical thinking and practical application of knowledge.
-Implementation: Create a small library of scenarios tied to the app’s existing content.
-4. Annotation Tool (Favorites Screen)
-Concept: Let users interact with PDFs or MP4s by adding personal notes or highlights.
+Michaelmas Term teaching begins
 
-How it Works:
-While viewing a PDF, users can highlight text or add sticky notes.
-For MP4s, allow timestamped comments (e.g., "Good tip at 2:15!").
-Save annotations to Favorites for quick reference.
-Benefit: Personalizes the experience and encourages deeper engagement with the material.
-Implementation: Integrate a lightweight annotation library or video comment feature.
-5. Health Goal Tracker (Settings Screen)
-Concept: Add a simple goal-setting and tracking feature tied to the educational content.
+ 	
+21-25 October 2024
 
-How it Works:
-Users set goals like "Learn about diabetes this week" or "Watch 3 videos on nutrition."
-Progress is tracked in Settings with a visual checklist or progress bar.
-Completing goals unlocks new content or a motivational message.
-Benefit: Motivates consistent app usage and ties into patient self-education.
-Implementation: Add a basic task management system with rewards.
-6. "What’s This?" Scanner (Home Screen)
-Concept: An interactive feature where users input symptoms or terms and get instant explanations.
+Reading Week
 
-How it Works:
-Users type or voice-input something (e.g., "What is dyspnea?").
-The app searches its library and returns a quick definition with links to related MP4s/PDFs.
-Benefit: Makes the app feel responsive and useful in real-time.
-Implementation: Use a keyword search algorithm tied to your content database.
-7. Brainstorm Board (Favorites or Settings Screen)
-Concept: A digital whiteboard where users jot down questions, ideas, or reflections about what they’ve learned.
+ 	
+29 November 2024
 
-How it Works:
-Users can type or draw (if touch input is supported) on a blank canvas.
-Save boards to Favorites for later review.
-Optional: Prompt them with questions like "What did you learn about X today?"
-Benefit: Encourages creative thinking and personal connection to the material.
-Implementation: Add a simple drawing/note-taking feature.
-8. Gamified Progress Map (Home Screen)
-Concept: Turn learning into a journey with a visual map or progress tracker.
+Teaching ends
 
-How it Works:
-Each PDF/MP4 completed moves the user along a "Health Knowledge Path."
-Milestones (e.g., "Heart Health Expert") unlock at certain points.
-Benefit: Adds a sense of achievement and encourages exploration of all content.
-Implementation: Design a linear or branching map with checkpoints.
-How to Prioritize
-Ease of Implementation: Start with simpler features like quizzes or annotations, as they require less development overhead.
-User Feedback: Test 1-2 ideas with your audience to see what resonates most with patient education goals.
-Content Integration: Ensure all activities tie back to your MP4s and PDFs to maintain the app’s core purpose.
-Which of these ideas sounds most appealing for your app, or do you have a specific direction in mind? I can refine the suggestions further based on your feedback!
+ 	
+02-06 December 2024
+
+Revision Week
+
+ 	
+09-13 December 2024*
+
+Winter Examination Period
+
+ 	
+13-17 January 2025
+
+January Orientation (January 2025 intake ONLY)
+
+ 	
+20 January 2025
+
+Hilary Term teaching begins
+
+ 	
+03-07 March 2025
+
+Reading Week
+
+ 	
+11 April 2025
+
+Hilary Term teaching ends
+
+ 	
+14-18 April 2025
+
+Revision Week
+
+ 	
+21-25 April 2025* Summer Examination Period
+28 April-02 May 2025 Trinity Week
 
 
-
-
-
-
-
-Give me more ideas
-
-
-
-
-Here are additional brainstorming and interactive ideas tailored to your "Patient Education" app, building on its library-like structure with Home, Favorites, and Settings screens. These suggestions aim to deepen engagement, encourage exploration, and make the app more dynamic while staying aligned with its educational focus:
-
-9. Interactive Body Map (Home Screen)
-Concept: A clickable human body diagram where users explore health topics by anatomy.
-
-How it Works:
-Users tap on a body part (e.g., heart, lungs, stomach).
-The app displays a pop-up with related conditions, quick facts, and links to relevant MP4s/PDFs (e.g., "Heart: Learn about hypertension").
-Optional: Add a "quiz mode" where users identify parts based on descriptions.
-Benefit: Visual and intuitive way to navigate content, appealing to visual learners.
-Implementation: Use a scalable vector graphic (SVG) of the body with hotspots linked to your content.
-10. Daily Health Tips Challenge (Home Screen)
-Concept: A daily interactive challenge based on small, actionable health tips.
-
-How it Works:
-Each day, the app presents a tip (e.g., "Drink 8 oz of water now" or "Do a 1-minute stretch").
-Users check off when completed, earning a streak or points tracked in Settings.
-Tips are tied to library content (e.g., a stretching MP4).
-Benefit: Encourages daily app usage and practical application of knowledge.
-Implementation: Curate a tip database and add a simple checkmark system.
-11. "Ask the Expert" Simulation (Home Screen)
-Concept: A chatbot-style feature where users "ask" questions and get responses based on the app’s content.
-
-How it Works:
-Users type a question (e.g., "How do I lower cholesterol?").
-The app matches keywords to its library and returns a concise answer with links to MP4s/PDFs.
-Optional: Add pre-set Q&A scenarios for common queries.
-Benefit: Feels personalized and interactive without needing live experts.
-Implementation: Use a basic natural language processing (NLP) matcher or keyword-based search.
-12. Medication Puzzle (Favorites Screen)
-Concept: A puzzle game where users match medications to their uses or side effects.
-
-How it Works:
-Example: Drag "Aspirin" to "Pain Relief" or "Nausea" to "Chemotherapy Drug."
-Include a “Learn More” button linking to relevant PDFs/MP4s.
-Add levels of difficulty (e.g., common vs. rare drugs).
-Benefit: Educates users on medications in a fun, memorable way.
-Implementation: Create a drag-and-drop interface with a medication database.
-13. Storytelling Journey (Home Screen)
-Concept: Turn patient education into a narrative where users follow a character’s health journey.
-
-How it Works:
-Example: "Meet Sarah, who just found out she has diabetes. What should she do next?"
-Users make choices (e.g., "Check blood sugar" or "Eat candy") and see outcomes.
-Each step links to educational content for deeper learning.
-Benefit: Engages users emotionally and contextually with the material.
-Implementation: Design a linear or branching story with decision points.
-14. Voice-Activated Flashcards (Settings or Favorites Screen)
-Concept: Audio-based flashcards for hands-free learning.
-
-How it Works:
-Users enable the feature in Settings and say “Next” to hear a term (e.g., "What is insulin?").
-The app reads the definition, and users can save favorites to revisit.
-Content is pulled from PDFs or MP4 transcripts.
-Benefit: Accessible for visually impaired users or multitasking learners.
-Implementation: Integrate text-to-speech and voice command APIs.
-15. Peer Discussion Simulator (Favorites Screen)
-Concept: A mock discussion board where users respond to prompts and see AI-generated "peer" replies.
-
-How it Works:
-Prompt: "What’s the hardest part of managing stress?"
-Users type their thoughts, and the app generates varied responses (e.g., "I agree, time management is tough!" or "I find exercise helps").
-Links to stress-related content follow the discussion.
-Benefit: Encourages reflection and simulates community without needing real users.
-Implementation: Use pre-written responses or a simple AI text generator.
-16. Progress Quiz Tournament (Home Screen)
-Concept: A timed quiz competition where users test their knowledge against a clock or “opponents.”
-
-How it Works:
-Users pick a topic (e.g., "Nutrition Basics") and answer rapid-fire questions.
-Scores are saved in Settings, with a leaderboard (local to the user’s device).
-Questions link back to library content for review.
-Benefit: Adds excitement and replayability to learning.
-Implementation: Build a timed quiz module with a scoring system.
-17. Custom Playlist Creator (Favorites Screen)
-Concept: Let users build and share playlists of MP4s/PDFs for specific goals.
-
-How it Works:
-Users select content (e.g., "Post-Surgery Recovery Playlist") and save it to Favorites.
-Add a “Play All” feature to view content sequentially.
-Optional: Include a short reflection prompt after each item (e.g., "What did you learn?").
-Benefit: Empowers users to curate their learning experience.
-Implementation: Add a playlist builder with a queue system.
-18. Augmented Reality (AR) Viewer (Home Screen)
-Concept: Use AR to visualize health concepts (e.g., how a heart pumps or how medication works in the body).
-
-How it Works:
-Users point their camera at a flat surface, and a 3D model appears (e.g., a beating heart).
-Tap the model for annotations or links to related MP4s/PDFs.
-Benefit: Cutting-edge and highly engaging for tech-savvy users.
-Implementation: Requires ARKit (iOS) or ARCore (Android) integration—more complex but impactful.
-
-
-Daily Challenges & Streaks
-Overview
-Purpose: Encourage daily app use with knowledge tasks (e.g., "Watch a video") and reward users with points, badges, and streaks.
-Mechanics:
-Daily task appears on Home screen (e.g., "Read ‘Diabetes Basics’").
-Completing tasks earns rewards; consecutive days build a streak.
-Progress tracked in Settings (e.g., "3-day streak, 30 points").
-Benefits:
-Builds learning habits via streaks.
-Gamifies education with rewards.
-Drives exploration of content.
-Implementation:
-Challenge widget UI with progress bar.
-Local storage for tasks/streaks (e.g., JSON).
-Auto/manual completion logic + optional notifications.
-Moderate effort: UI + local tracking.
+https://www.tcd.ie/academicpractice/professional-development/special-certificate/timetable.php
+https://www.tcd.ie/calendar/
+https://www.tcd.ie/students/orientation/twelve-weeks/
