@@ -76,3 +76,34 @@ https://www.tcd.ie/calendar/academic-year-structure/
 
 How many hours of classes are there each week?
 The M.Sc. programme entails approximately twenty contact hours per week (including lectures, tutorials, seminars, and laboratory classes) during the two teaching semesters. All modules require students to complete considerable further coursework and study in their own time beyond these timetabled hours.
+
+
+Hi Marjelka/Suzanne,
+
+As previously discussed, we are providing an initial estimate for both the Matomo implementation and the technical documentation.
+
+The Patient Education App documentation will include the following items, with an estimated completion time of approximately 4 days
+Overview of application flow. 
+Data flow within the application. 
+Technical details about complete application. 
+Authentication. 
+Data handling. 
+Country and language information. 
+Permission handling Information 
+
+Below are the details regarding the Matomo implementation:
+
+Task
+Number of Days
+Time required to grant permission and to create instance
+2
+Integrating the motomo instance within the App
+3
+Testing the compelete 
+2
+Release the App in Production
+1
+Total
+8
+
+The estimated effort for both the Matomo implementation and the technical documentation is approximately 12 person-days, which is roughly equivalent to €3,500
