@@ -1,3 +1,7 @@
+
+shatrughan.teamlease@avanse.com
+
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Splash.css';
