@@ -1,155 +1,149 @@
+import Realm from 'realm';
+import { API_NAMES, BINARY_STRING } from '../Constant/Constants';
+import { base64ToArrayBuffer } from '../Helper/Helper';
+import LogManager from '../Helper/LogManager';
+import { FavoriteGroupModel } from '../Model/FavouriteGroupModel';
+import { DriveItemSchema, FavoriteGroupSchema, FavoriteSchema, LanguageDataSchema, LastModifyDateSchema, UserSchema } from './Schema';
 
-shatrughan.teamlease@avanse.com
+export class DatabaseManager {
+    //Constants
+    kParentReferenceId = 'parentReferenceId';
+    kUniqueId = 'uniqueId';
+    kName = 'name';
+    kFavoriteGroupName = 'favoriteGroupName';
+    kWebUrl = 'webUrl';
+    kMasterFolderName = 'Master';
+    kRegionalFolderName = 'Regional';
+    kDefaultFavoriteGroupName = 'Default';
+    kCountryRoot = (country: string) => {
+        return `webUrl == '${API_NAMES.ROOT_WEB_URL + country}'`;
+    };
 
+    realm: Realm;
+    static dbInstance: DatabaseManager;
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Splash.css';
+    constructor() {
+        console.log('Database constructor');
+        this.initializeRealm();
+    }
+    static getInstance() {
+        if (this.dbInstance == null) {
+            this.dbInstance = new DatabaseManager();
+        }
+        return this.dbInstance;
+    }
 
-const Splash = () => {
-  const navigate = useNavigate();
-
-  const handleGetStarted = () => {
-    navigate('/login'); // Navigate to login page
-  };
-
-  return (
-    <div className="splash-container">
-      <div className="splash-content">
-        <h1>Welcome to Our App</h1>
-        <p>Your journey to a better experience starts here. Explore the features and enjoy seamless integration with your favorite tools.</p>
-        <button className="get-started-button" onClick={handleGetStarted}>Get Started to Have Fun</button>
-      </div>
-    </div>
-  );
-};
-
-export default Splash;
-
-
-//CSS
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-  }
-  
-  .splash-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
-    background-color: #f5f5f5; /* Background color */
-    text-align: center;
-  }
-  
-  .splash-content {
-    max-width: 500px; /* Limit the width of the content */
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .splash-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .splash-content p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
-  
-  .get-started-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .get-started-button:hover {
-    background-color: #0056b3;
-  }
-
-
-
-  //AuthCOntect
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
-
-axios.defaults.baseURL = 'http://localhost:8080'; // Ensure this matches your backend server
-
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const loadUser = async () => {
-            if (localStorage.token) {
-                axios.defaults.headers.common['x-auth-token'] = localStorage.token;
-            }
-
-            try {
-                const res = await axios.get('/api/auth/user');
-                setUser(res.data);
-            } catch (error) {
-                console.error('Load User Error:', error.response ? error.response.data : error.message);
-            }
-            setLoading(false);
-        };
-
-        loadUser();
-    }, []);
-
-    const login = async (email, password) => {
+    /**
+     * Initialize Database with all schema
+     */
+    initializeRealm() {
+        console.log('initializeRealm started');
         try {
-            const res = await axios.post('/api/auth/login', { email, password });
-            localStorage.setItem('token', res.data.token);
-            axios.defaults.headers.common['x-auth-token'] = res.data.token;
-            const userRes = await axios.get('/api/auth/user');
-            setUser(userRes.data);
-            return {status:true,message:"Login Success"};
+            //https://www.convertstring.com/EncodeDecode/HexEncode pass encryption key to URL to get hexcode
+            //use it to open Realm
+
+            this.realm = new Realm({
+                encryptionKey: base64ToArrayBuffer(BINARY_STRING),
+                schema: [DriveItemSchema, UserSchema, FavoriteSchema, FavoriteGroupSchema,LastModifyDateSchema,LanguageDataSchema],
+                schemaVersion: 1,
+                migration: (_oldRealm, _newRealm) => {
+                    //app already release to app store and in next version if you update any field name or change
+                    //its data type then new app to work without failing we have to right code here in this
+                },
+            });
+
+            console.log('initializeRealm finished');
         } catch (error) {
-            console.error('Login Error:', error);
-            return {status:false,message:error.response};
+            console.log('initializeRealm error=', error);
+        }
+    }
+
+    public createEntity = async (schemaName: string, data: any) => {
+        try {
+            this.realm.write(async () => {
+                if (data?.length > 0) {
+                    for (let i = 0, total = data.length; i < total; i++) {
+                        this.realm.create(schemaName, data[i], Realm.UpdateMode.All);
+                    }
+                } else {
+                    this.realm.create(schemaName, data, Realm.UpdateMode.All);
+                }
+            });
+        } catch (error) {
+            LogManager.info('createEntity--->', error);
+            return '';
         }
     };
 
-    const register = async (username, email, password) => {
+    public getEntities = (schemaName: string, query?: string) => {
         try {
-            const res = await axios.post('/api/auth/register', { username, email, password });
-            localStorage.setItem('token', res.data.token);
-            axios.defaults.headers.common['x-auth-token'] = res.data.token;
-            const userRes = await axios.get('/api/auth/user');
-            setUser(userRes.data);
-            return {status:true,message:"Register Success"};
+            if (query) {
+                let queryResult = this.realm.objects(schemaName).filtered(query);
+                let copyOfJsonArray = Array.from(queryResult);
+                return this.copyRealmObject(copyOfJsonArray);
+            } else {
+                let copyOfJsonArray = Array.from(this.realm.objects(schemaName));
+                return this.copyRealmObject(copyOfJsonArray);
+            }
         } catch (error) {
-            console.error('Registration Error:', error.response ? error.response.data : error.message);
-            return {status:false,message:error.response};
+            LogManager.error('getEntities--->', error);
+            return [];
         }
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        delete axios.defaults.headers.common['x-auth-token'];
+    public getEntity = (schemaName: string, primaryKey: string) => {
+        try {
+            var group = this.realm?.objectForPrimaryKey(schemaName, primaryKey);
+            return this.copyRealmObject(group);
+        } catch (error) {
+            LogManager.error('getEnttity--->', error);
+            return null;
+        }
     };
 
-    return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
-            {!loading && children}
-        </AuthContext.Provider>
-    );
-};
+    public copyRealmObject = (item: any) => {
+        return JSON.parse(JSON.stringify(item)); //refReplacer(item)};
+    };
+
+    public removeRealmObject = (schemaName: string, item: any) => {
+        // delete entity
+        try {
+            this.realm?.write(() => {
+                var group = this.realm?.objectForPrimaryKey(schemaName, item.id);
+                if (group) {
+                    this.realm?.delete(group);
+                    group = undefined;
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    public deleteRealmObject = (schemaName: string, primaryKey: any) => {
+        // delete entity
+        try {
+            this.realm?.write(() => {
+                var group = this.realm?.objectForPrimaryKey(schemaName, primaryKey);
+                if (group) {
+                    this.realm?.delete(group);
+                    group = undefined;
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    public deleteEntity = async (schema: SchemaType) => {
+        try {
+            this.realm.write(() => {
+                this.realm.delete(this.realm.objects(schema));
+            });
+        } catch (error) {
+            console.log('deleteEntity--->', error);
+            return '';
+        }
+    };
+
+}
